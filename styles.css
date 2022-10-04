@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif;
+  background-image: url("/images/sprinkles.png");
+}
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+}
+#gameScreen {
+  border: 3px solid black;
+}
+img {
+  display: none;
+}

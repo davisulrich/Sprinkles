@@ -1,7 +1,6 @@
 import Paddle from "/paddle.js";
 import InputHandler from "/input.js";
 import Ball from "/ball.js";
-import Brick from "/brick.js";
 import {
   buildLevel,
   level1,
@@ -11,7 +10,7 @@ import {
   level5,
   level6,
   level7,
-  level8
+  level8,
 } from "/levels.js";
 
 const GAME_STATE = {
@@ -20,7 +19,7 @@ const GAME_STATE = {
   MENU: 2,
   GAMEOVER: 3,
   NEWLEVEL: 4,
-  GAMEWON: 5
+  GAMEWON: 5,
 };
 export default class Game {
   constructor(gameWidth, gameHeight) {
@@ -40,7 +39,7 @@ export default class Game {
       level5,
       level6,
       level7,
-      level8
+      level8,
     ];
     this.currentLevel = 0;
 
@@ -50,10 +49,14 @@ export default class Game {
   start() {
     if (
       this.gamestate !== GAME_STATE.MENU &&
-      this.gamestate !== GAME_STATE.NEWLEVEL
+      this.gamestate !== GAME_STATE.NEWLEVEL &&
+      this.gamestate !== GAME_STATE.GAMEOVER
     )
       return;
-
+    if (this.gamestate == GAME_STATE.GAMEOVER) {
+      this.lives = 3;
+      this.paddle = new Paddle(this);
+    }
     this.bricks = buildLevel(this, this.levels[this.currentLevel]);
     this.ball.reset();
     this.gameObjects = [this.ball, this.paddle];
@@ -187,11 +190,11 @@ export default class Game {
     }
 
     if (this.gamestate === GAME_STATE.GAMEOVER) {
-      context.fillStyle = "#783b4d";
+      context.fillStyle = "#880015";
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
 
-      context.font = "30px Arial";
+      context.font = "40px Silkscreen";
       context.fillStyle = "white";
       context.textAlign = "center";
       context.fillText("BUMMER", this.gameWidth / 2, this.gameHeight / 2);
@@ -208,7 +211,7 @@ export default class Game {
         200,
         250
       );
-      context.font = "30px Arial";
+      context.font = "30px Silkscreen";
       context.fillStyle = "white";
       context.textAlign = "center";
       context.fillText(

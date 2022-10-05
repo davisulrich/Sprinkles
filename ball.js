@@ -13,7 +13,7 @@ export default class Ball {
   }
 
   reset() {
-    this.position = { x: 10, y: 200 };
+    this.position = { x: 30, y: 300 };
     this.speed = { x: 3, y: -5 };
   }
 

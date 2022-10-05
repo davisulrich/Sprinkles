@@ -19,6 +19,7 @@ export default class InputHandler {
         // Spacebar
         case 32:
           game.start();
+          geniusOfLove.pause();
           geniusOfLove.currentTime = 0;
           geniusOfLove.play();
           break;

@@ -1,6 +1,6 @@
 body {
-  font-family: sans-serif;
-  background-image: url("/images/sprinkles.png");
+  font-family: "Press Start 2P", serif;
+  background-color: #6f6d6d;
 }
 #game-container {
   display: flex;

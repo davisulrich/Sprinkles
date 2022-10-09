@@ -90,20 +90,54 @@ export default class Game {
   }
 
   draw(context) {
-    context.fillStyle = "#EB88F2";
-    context.rect(0, 0, this.gameWidth, this.gameHeight);
-    context.fill();
-    context.font = "20px Silkscreen";
-    context.fillStyle = "black";
-    context.fillText("Level " + (this.currentLevel + 1), 52, 20);
-    context.fillStyle = "black";
-    context.fillText("# Lives: " + this.lives, this.gameWidth - 68, 20);
+    if (this.gamestate === GAME_STATE.RUNNING) {
+      context.fillStyle = "#ffffff";
+      context.rect(0, 0, this.gameWidth, this.gameHeight);
+      context.fill();
+      context.font = "20px Silkscreen";
+      context.fillStyle = "black";
+      context.fillText("Level " + (this.currentLevel + 1), 52, 20);
+      context.fillStyle = "black";
+      context.fillText("# Lives: " + this.lives, this.gameWidth - 68, 20);
 
-    [...this.gameObjects, ...this.bricks].forEach((object) =>
-      object.draw(context)
-    );
+      [...this.gameObjects, ...this.bricks].forEach((object) =>
+        object.draw(context)
+      );
+    } else if (this.gamestate === GAME_STATE.MENU) {
+      context.fillStyle = "#FFFFFF";
+      context.rect(0, 0, this.gameWidth, this.gameHeight);
+      context.fill();
 
-    if (this.gamestate === GAME_STATE.PAUSED) {
+      context.font = "44px 'Press Start 2P'";
+      context.fillStyle = "#000000";
+      context.textAlign = "center";
+      // console.log(context.font);
+      context.fillText(
+        "SPRINKLES",
+        this.gameWidth / 2,
+        this.gameHeight / 2 + 60
+      );
+      context.font = "18px 'Press Start 2P'";
+      context.fillText(
+        "by Davis Ulrich",
+        this.gameWidth / 2,
+        this.gameHeight / 2 + 110
+      );
+      context.font = "24px 'Press Start 2P'";
+      context.fillStyle = "#000000";
+      context.fillText(
+        "press SPACE to start",
+        this.gameWidth / 2,
+        this.gameHeight / 2 + 170
+      );
+      context.drawImage(
+        document.getElementById("img_icecream"),
+        this.gameWidth / 2 - 62.5,
+        this.gameHeight / 2 - 175,
+        125,
+        160
+      );
+    } else if (this.gamestate === GAME_STATE.PAUSED) {
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fillStyle = "rgba(100, 100, 0, 0.5)";
       context.fill();
@@ -112,84 +146,7 @@ export default class Game {
       context.fillStyle = "black";
       context.textAlign = "center";
       context.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
-    }
-
-    if (this.gamestate === GAME_STATE.MENU) {
-      context.fillStyle = "#eb88f2";
-      context.rect(0, 0, this.gameWidth, this.gameHeight);
-      context.fill();
-
-      // context.fillStyle = "#8FF288";
-      // context.fillRect(90, 385, this.gameWidth - 180, 20);
-
-      context.font = "38px Silkscreen";
-      context.fillStyle = "#F2EB88";
-      context.textAlign = "center";
-      context.fillText(
-        "Welcome to Sprinkles!",
-        this.gameWidth / 2,
-        this.gameHeight / 2 + 50
-      );
-      context.font = "24px Silkscreen";
-      context.fillStyle = "pink";
-      context.fillText(
-        "A game by Davis Ulrich",
-        this.gameWidth / 2,
-        this.gameHeight / 2 + 95
-      );
-      context.font = "26px Silkscreen";
-      context.fillStyle = "white";
-      context.fillText(
-        "Press SPACEBAR to Start",
-        this.gameWidth / 2,
-        this.gameHeight / 2 + 150
-      );
-
-      // context.font = "16px Silkscreen";
-      // context.fillStyle = "pink";
-      // context.fillText(
-      //   "Use your arrows to move. ESC to pause",
-      //   this.gameWidth / 2,
-      //   this.gameHeight / 2 + 175
-      // );
-      context.drawImage(
-        document.getElementById("img_icecream"),
-        this.gameWidth / 2 - 62.5,
-        this.gameHeight / 2 - 175,
-        125,
-        160
-      );
-      // context.drawImage(
-      //   document.getElementById("img_sprinkles_pixel"),
-      //   70,
-      //   70,
-      //   100,
-      //   100
-      // );
-      // context.drawImage(
-      //   document.getElementById("img_sprinkles_pixel"),
-      //   -37,
-      //   70,
-      //   100,
-      //   100
-      // );
-      // context.drawImage(
-      //   document.getElementById("img_sprinkles_pixel"),
-      //   this.gameWidth - 70 - 100,
-      //   70,
-      //   100,
-      //   100
-      // );
-      // context.drawImage(
-      //   document.getElementById("img_sprinkles_pixel"),
-      //   this.gameWidth - 63,
-      //   70,
-      //   100,
-      //   100
-      // );
-    }
-
-    if (this.gamestate === GAME_STATE.GAMEOVER) {
+    } else if (this.gamestate === GAME_STATE.GAMEOVER) {
       context.fillStyle = "#880015";
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
@@ -198,9 +155,7 @@ export default class Game {
       context.fillStyle = "white";
       context.textAlign = "center";
       context.fillText("BUMMER", this.gameWidth / 2, this.gameHeight / 2);
-    }
-
-    if (this.gamestate === GAME_STATE.GAMEWON) {
+    } else if (this.gamestate === GAME_STATE.GAMEWON) {
       context.fillStyle = "#a0f76d";
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();

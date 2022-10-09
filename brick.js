@@ -2,7 +2,7 @@ import { detectCollision } from "/collisionDetection.js";
 
 export default class Brick {
   constructor(game, position) {
-    this.image = document.getElementById("img_sprinkles_pixel");
+    this.image = document.getElementById("img_sprinkles");
     this.position = position;
 
     this.width = 75;

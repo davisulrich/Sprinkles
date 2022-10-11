@@ -14,7 +14,7 @@ export default class Ball {
 
   reset() {
     this.position = { x: 30, y: 300 };
-    this.speed = { x: 3, y: -5 };
+    this.speed = { x: 3, y: -7 };
   }
 
   draw(context) {
@@ -27,7 +27,7 @@ export default class Ball {
     );
   }
 
-  update(deltaTime) {
+  update() {
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
 

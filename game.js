@@ -63,7 +63,7 @@ export default class Game {
     this.gamestate = GAME_STATE.RUNNING;
   }
 
-  update(deltaTime) {
+  update() {
     if (this.lives === 0) this.gamestate = GAME_STATE.GAMEOVER;
     if (
       this.gamestate === GAME_STATE.PAUSED ||
@@ -73,9 +73,7 @@ export default class Game {
     )
       return;
 
-    [...this.gameObjects, ...this.bricks].forEach((object) =>
-      object.update(deltaTime)
-    );
+    [...this.gameObjects, ...this.bricks].forEach((object) => object.update());
     this.bricks = this.bricks.filter((brick) => !brick.markedForDeletion);
 
     if (this.bricks.length === 0) {

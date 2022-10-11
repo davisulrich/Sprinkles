@@ -92,10 +92,17 @@ export default class Game {
       context.fillStyle = "#ffffff";
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
-      context.fillStyle = "#E35AED";
-      context.fillRect(0, 0, this.gameWidth, 25);
+
+      // context.fillStyle = "#E35AED";
+      // context.fillRect(0, 0, this.gameWidth, 25);
+      context.beginPath();
+      context.moveTo(0, 25);
+      context.lineTo(this.gameWidth, 25);
+      context.lineWidth = 1;
+      context.stroke();
+
       context.font = "20px Silkscreen";
-      context.fillStyle = "#ffffff";
+      context.fillStyle = "#E35AED";
       context.fillText("SPRINKLES", this.gameWidth / 2 - 10, 20);
       context.fillStyle = "black";
       context.fillText("Level " + (this.currentLevel + 1), 52, 20);
@@ -168,7 +175,7 @@ export default class Game {
         250
       );
       context.font = "30px Silkscreen";
-      context.fillStyle = "white";
+      context.fillStyle = "#000000";
       context.textAlign = "center";
       context.fillText(
         "You Win! High Five!",

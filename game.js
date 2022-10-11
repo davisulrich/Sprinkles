@@ -92,10 +92,13 @@ export default class Game {
       context.fillStyle = "#ffffff";
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
+      context.fillStyle = "#E35AED";
+      context.fillRect(0, 0, this.gameWidth, 25);
       context.font = "20px Silkscreen";
+      context.fillStyle = "#ffffff";
+      context.fillText("SPRINKLES", this.gameWidth / 2 - 10, 20);
       context.fillStyle = "black";
       context.fillText("Level " + (this.currentLevel + 1), 52, 20);
-      context.fillStyle = "black";
       context.fillText("# Lives: " + this.lives, this.gameWidth - 68, 20);
 
       [...this.gameObjects, ...this.bricks].forEach((object) =>

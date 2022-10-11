@@ -13,7 +13,7 @@ export default class Ball {
   }
 
   reset() {
-    this.position = { x: 30, y: 300 };
+    this.position = { x: 70, y: 300 };
     this.speed = { x: 3, y: -7 };
   }
 
@@ -31,6 +31,17 @@ export default class Ball {
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
 
+    // if (
+    //   ball.position.x + ball.size.width > gameObject.position.x &&
+    //   ball.position.x < gameObject.position.x + gameObject.width &&
+    //   ball.position.y + ball.size.height > gameObject.position.y &&
+    //   ball.position.y < gameObject.position.y + gameObject.height
+    // ) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+
     //hitting the wall on left or right (x axis)
     if (
       this.position.x + this.size.width > this.gameWidth ||
@@ -39,7 +50,7 @@ export default class Ball {
       this.speed.x = -this.speed.x;
 
     //hitting the wall on top (y axis))
-    if (this.position.y <= 0) this.speed.y = -this.speed.y;
+    if (this.position.y - 30 <= 0) this.speed.y = -this.speed.y;
 
     // hitting the bottom of the screen (game over)
     if (this.position.y + this.size.height > this.gameHeight) {

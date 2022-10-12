@@ -21,6 +21,14 @@ const GAME_STATE = {
   NEWLEVEL: 4,
   GAMEWON: 5,
 };
+
+const geniusOfLove = new Audio("/audio/genius_of_love.mp3");
+geniusOfLove.volume = 0.3;
+const levelUpAudio = new Audio("/audio/sprinkles-levelup.wav");
+levelUpAudio.volume = 0.4;
+const gameOverAudio = new Audio("/audio/sprinkles-gameover.wav");
+gameOverAudio.volume = 0.4;
+
 export default class Game {
   constructor(gameWidth, gameHeight) {
     this.gameWidth = gameWidth;
@@ -48,23 +56,37 @@ export default class Game {
 
   start() {
     if (
-      this.gamestate !== GAME_STATE.MENU &&
-      this.gamestate !== GAME_STATE.NEWLEVEL &&
-      this.gamestate !== GAME_STATE.GAMEOVER
-    )
-      return;
-    if (this.gamestate == GAME_STATE.GAMEOVER) {
-      this.lives = 3;
-      this.paddle = new Paddle(this);
+      this.gamestate === GAME_STATE.MENU ||
+      this.gamestate === GAME_STATE.NEWLEVEL ||
+      this.gamestate === GAME_STATE.GAMEOVER
+    ) {
+      if (this.gamestate === GAME_STATE.GAMEOVER) {
+        this.lives = 3;
+        this.paddle = new Paddle(this);
+        geniusOfLove.currentTime = 0;
+        geniusOfLove.play();
+      }
+
+      if (this.gamestate === GAME_STATE.MENU && this.lives === 3) {
+        geniusOfLove.pause();
+        geniusOfLove.currentTime = 0;
+        geniusOfLove.play();
+      }
+
+      this.bricks = buildLevel(this, this.levels[this.currentLevel]);
+      this.ball.reset();
+      this.gameObjects = [this.ball, this.paddle];
+      this.gamestate = GAME_STATE.RUNNING;
     }
-    this.bricks = buildLevel(this, this.levels[this.currentLevel]);
-    this.ball.reset();
-    this.gameObjects = [this.ball, this.paddle];
-    this.gamestate = GAME_STATE.RUNNING;
   }
 
   update() {
-    if (this.lives === 0) this.gamestate = GAME_STATE.GAMEOVER;
+    if (this.lives === 0 && this.gamestate === GAME_STATE.RUNNING) {
+      this.gamestate = GAME_STATE.GAMEOVER;
+      geniusOfLove.pause();
+      gameOverAudio.currentTime = 0;
+      gameOverAudio.play();
+    }
     if (
       this.gamestate === GAME_STATE.PAUSED ||
       this.gamestate === GAME_STATE.MENU ||
@@ -79,11 +101,15 @@ export default class Game {
     if (this.bricks.length === 0) {
       if (this.currentLevel === this.levels.length - 1) {
         this.gamestate = GAME_STATE.GAMEWON;
+        geniusOfLove.pause();
         return;
+      } else {
+        this.gamestate = GAME_STATE.NEWLEVEL;
+        this.currentLevel++;
+        levelUpAudio.currentTime = 0;
+        levelUpAudio.play();
+        this.start();
       }
-      this.gamestate = GAME_STATE.NEWLEVEL;
-      this.currentLevel++;
-      this.start();
     }
   }
 
@@ -93,8 +119,6 @@ export default class Game {
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
 
-      // context.fillStyle = "#E35AED";
-      // context.fillRect(0, 0, this.gameWidth, 25);
       context.beginPath();
       context.moveTo(0, 25);
       context.lineTo(this.gameWidth, 25);
@@ -119,7 +143,6 @@ export default class Game {
       context.font = "44px 'Press Start 2P'";
       context.fillStyle = "#000000";
       context.textAlign = "center";
-      // console.log(context.font);
       context.fillText(
         "SPRINKLES",
         this.gameWidth / 2,
@@ -189,8 +212,10 @@ export default class Game {
   togglePause() {
     if (this.gamestate === GAME_STATE.PAUSED) {
       this.gamestate = GAME_STATE.RUNNING;
+      geniusOfLove.play();
     } else {
       this.gamestate = GAME_STATE.PAUSED;
+      geniusOfLove.pause();
     }
   }
 }

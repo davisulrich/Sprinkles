@@ -1,38 +1,40 @@
-const geniusOfLove = new Audio("/audio/genius_of_love.mp3");
-geniusOfLove.volume = 0.5;
-
 export default class InputHandler {
   constructor(paddle, game) {
     document.addEventListener("keydown", (event) => {
-      switch (event.keyCode) {
-        case 37:
-          paddle.moveLeft();
+      switch (event.code) {
+        case "ArrowLeft":
+          if (game.gamestate === 1) {
+            paddle.moveLeft();
+          }
           break;
 
-        case 39:
-          paddle.moveRight();
+        case "ArrowRight":
+          if (game.gamestate === 1) {
+            paddle.moveRight();
+          }
           break;
         // escape key
-        case 27:
-          game.togglePause();
+        case "Escape":
+          if (game.gamestate === 1) {
+            game.togglePause();
+          }
           break;
         // Spacebar
-        case 32:
-          game.start();
-          geniusOfLove.pause();
-          geniusOfLove.currentTime = 0;
-          geniusOfLove.play();
+        case "Space":
+          if (game.gamestate === 2 || game.gamestate === 3) {
+            game.start();
+          }
           break;
       }
     });
 
     document.addEventListener("keyup", (event) => {
-      switch (event.keyCode) {
-        case 37:
+      switch (event.code) {
+        case "ArrowLeft":
           if (paddle.speed < 0) paddle.stop();
           break;
 
-        case 39:
+        case "ArrowRight":
           if (paddle.speed > 0) paddle.stop();
           break;
       }

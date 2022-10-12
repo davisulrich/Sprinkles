@@ -1,4 +1,6 @@
 import { detectCollision } from "/collisionDetection.js";
+const hitBrickAudio = new Audio("/audio/sprinkles-hitbrick.wav");
+hitBrickAudio.volume = 0.4;
 
 export default class Brick {
   constructor(game, position) {
@@ -17,9 +19,10 @@ export default class Brick {
     if (detectCollision(this.game.ball, this)) {
       if (game.reverseDirectionTimer === 0) {
         this.game.ball.speed.y = -this.game.ball.speed.y;
+        hitBrickAudio.currentTime = 0;
+        hitBrickAudio.play();
       }
       game.reverseDirectionTimer = 2;
-      // this.game.ball.speed.y = -this.game.ball.speed.y;
       this.markedForDeletion = true;
     }
   }

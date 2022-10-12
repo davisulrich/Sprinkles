@@ -23,7 +23,7 @@ const GAME_STATE = {
 };
 
 const geniusOfLove = new Audio("/audio/genius_of_love.mp3");
-geniusOfLove.volume = 0.3;
+geniusOfLove.volume = 0.2;
 const levelUpAudio = new Audio("/audio/sprinkles-levelup.wav");
 levelUpAudio.volume = 0.4;
 const gameOverAudio = new Audio("/audio/sprinkles-gameover.wav");
@@ -194,24 +194,24 @@ export default class Game {
       context.textAlign = "center";
       context.fillText("BUMMER", this.gameWidth / 2, this.gameHeight / 2);
     } else if (this.gamestate === GAME_STATE.GAMEWON) {
-      context.fillStyle = "#a0f76d";
-      context.rect(0, 0, this.gameWidth, this.gameHeight);
-      context.fill();
       context.drawImage(
-        document.getElementById("img_mittens"),
-        this.gameWidth / 2 - 100,
-        this.gameHeight / 2 - 150,
-        200,
-        250
+        document.getElementById("img_sprinkles"),
+        0,
+        0,
+        1350,
+        450
       );
-      context.font = "40px 'Press Start 2P'";
+      // context.drawImage(
+      //   document.getElementById("img_mittens"),
+      //   this.gameWidth / 2 - 100,
+      //   this.gameHeight / 2 - 2000,
+      //   200,
+      //   250
+      // );
+      context.font = "46px 'Press Start 2P'";
       context.fillStyle = "#000000";
       context.textAlign = "center";
-      context.fillText(
-        "You Win! High Five!",
-        this.gameWidth / 2,
-        this.gameHeight / 2 + 150
-      );
+      context.fillText("You Win!", this.gameWidth / 2, this.gameHeight / 2);
     }
   }
 

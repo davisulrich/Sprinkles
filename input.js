@@ -15,7 +15,7 @@ export default class InputHandler {
           break;
         // escape key
         case "Escape":
-          if (game.gamestate === 1) {
+          if (game.gamestate === 1 || game.gamestate === 0) {
             game.togglePause();
           }
           break;

@@ -28,6 +28,8 @@ const levelUpAudio = new Audio("/audio/sprinkles-levelup.wav");
 levelUpAudio.volume = 0.4;
 const gameOverAudio = new Audio("/audio/sprinkles-gameover.wav");
 gameOverAudio.volume = 0.4;
+const pauseAudio = new Audio("/audio/sprinkles-horse.wav");
+pauseAudio.volume = 0.4;
 
 export default class Game {
   constructor(gameWidth, gameHeight) {
@@ -50,6 +52,8 @@ export default class Game {
       level8,
     ];
     this.currentLevel = 0;
+
+    this.reverseDirectionTimer = 0;
 
     new InputHandler(this.paddle, this);
   }
@@ -95,13 +99,18 @@ export default class Game {
     )
       return;
 
-    [...this.gameObjects, ...this.bricks].forEach((object) => object.update());
+    [...this.gameObjects].forEach((object) => object.update());
+
+    if (this.reverseDirectionTimer > 0) this.reverseDirectionTimer--;
+    [...this.bricks].forEach((object) => object.update(this));
     this.bricks = this.bricks.filter((brick) => !brick.markedForDeletion);
 
     if (this.bricks.length === 0) {
       if (this.currentLevel === this.levels.length - 1) {
         this.gamestate = GAME_STATE.GAMEWON;
         geniusOfLove.pause();
+        levelUpAudio.currentTime = 0;
+        levelUpAudio.play();
         return;
       } else {
         this.gamestate = GAME_STATE.NEWLEVEL;
@@ -119,17 +128,11 @@ export default class Game {
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
 
-      context.beginPath();
-      context.moveTo(0, 25);
-      context.lineTo(this.gameWidth, 25);
-      context.lineWidth = 1;
-      context.stroke();
-
-      context.font = "20px Silkscreen";
-      context.fillStyle = "#E35AED";
-      context.fillText("SPRINKLES", this.gameWidth / 2 - 10, 20);
+      context.font = "46px 'Press Start 2P'";
       context.fillStyle = "black";
-      context.fillText("Level " + (this.currentLevel + 1), 52, 20);
+      context.fillText("Level " + (this.currentLevel + 1), 300, 250);
+
+      context.font = "12px 'Press Start 2P'";
       context.fillText("# Lives: " + this.lives, this.gameWidth - 68, 20);
 
       [...this.gameObjects, ...this.bricks].forEach((object) =>
@@ -169,11 +172,15 @@ export default class Game {
         160
       );
     } else if (this.gamestate === GAME_STATE.PAUSED) {
-      context.rect(0, 0, this.gameWidth, this.gameHeight);
-      context.fillStyle = "rgba(100, 100, 0, 0.5)";
-      context.fill();
+      context.drawImage(
+        document.getElementById("img_unicorn"),
+        -300,
+        -75,
+        1200,
+        630
+      );
 
-      context.font = "40px Silkscreen";
+      context.font = "46px 'Press Start 2P'";
       context.fillStyle = "black";
       context.textAlign = "center";
       context.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
@@ -182,7 +189,7 @@ export default class Game {
       context.rect(0, 0, this.gameWidth, this.gameHeight);
       context.fill();
 
-      context.font = "40px Silkscreen";
+      context.font = "46px 'Press Start 2P'";
       context.fillStyle = "white";
       context.textAlign = "center";
       context.fillText("BUMMER", this.gameWidth / 2, this.gameHeight / 2);
@@ -197,7 +204,7 @@ export default class Game {
         200,
         250
       );
-      context.font = "30px Silkscreen";
+      context.font = "40px 'Press Start 2P'";
       context.fillStyle = "#000000";
       context.textAlign = "center";
       context.fillText(
@@ -216,6 +223,8 @@ export default class Game {
     } else {
       this.gamestate = GAME_STATE.PAUSED;
       geniusOfLove.pause();
+      pauseAudio.currentTime = 0;
+      pauseAudio.play();
     }
   }
 }

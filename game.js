@@ -22,8 +22,8 @@ const GAME_STATE = {
   GAMEWON: 5,
 };
 
-const geniusOfLove = new Audio("/audio/genius_of_love.mp3");
-geniusOfLove.volume = 0.2;
+const icecreamTruckAudio = new Audio("/audio/sprinkles-icecreamtruck.mp3");
+icecreamTruckAudio.volume = 0.2;
 const levelUpAudio = new Audio("/audio/sprinkles-levelup.wav");
 levelUpAudio.volume = 0.4;
 const gameOverAudio = new Audio("/audio/sprinkles-gameover.wav");
@@ -67,14 +67,14 @@ export default class Game {
       if (this.gamestate === GAME_STATE.GAMEOVER) {
         this.lives = 3;
         this.paddle = new Paddle(this);
-        geniusOfLove.currentTime = 0;
-        geniusOfLove.play();
+        icecreamTruckAudio.currentTime = 0;
+        icecreamTruckAudio.play();
       }
 
       if (this.gamestate === GAME_STATE.MENU && this.lives === 3) {
-        geniusOfLove.pause();
-        geniusOfLove.currentTime = 0;
-        geniusOfLove.play();
+        icecreamTruckAudio.pause();
+        icecreamTruckAudio.currentTime = 0;
+        icecreamTruckAudio.play();
       }
 
       this.bricks = buildLevel(this, this.levels[this.currentLevel]);
@@ -87,7 +87,7 @@ export default class Game {
   update() {
     if (this.lives === 0 && this.gamestate === GAME_STATE.RUNNING) {
       this.gamestate = GAME_STATE.GAMEOVER;
-      geniusOfLove.pause();
+      icecreamTruckAudio.pause();
       gameOverAudio.currentTime = 0;
       gameOverAudio.play();
     }
@@ -108,7 +108,7 @@ export default class Game {
     if (this.bricks.length === 0) {
       if (this.currentLevel === this.levels.length - 1) {
         this.gamestate = GAME_STATE.GAMEWON;
-        geniusOfLove.pause();
+        icecreamTruckAudio.pause();
         levelUpAudio.currentTime = 0;
         levelUpAudio.play();
         return;
@@ -219,10 +219,10 @@ export default class Game {
   togglePause() {
     if (this.gamestate === GAME_STATE.PAUSED) {
       this.gamestate = GAME_STATE.RUNNING;
-      geniusOfLove.play();
+      icecreamTruckAudio.play();
     } else {
       this.gamestate = GAME_STATE.PAUSED;
-      geniusOfLove.pause();
+      icecreamTruckAudio.pause();
       pauseAudio.currentTime = 0;
       pauseAudio.play();
     }

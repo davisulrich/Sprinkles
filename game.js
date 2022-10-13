@@ -22,8 +22,8 @@ const GAME_STATE = {
   GAMEWON: 5,
 };
 
-const icecreamTruckAudio = new Audio("/audio/sprinkles-icecreamtruck.mp3");
-icecreamTruckAudio.volume = 0.2;
+const despacitoAudio = new Audio("/audio/sprinkles-despacito.mp3");
+despacitoAudio.volume = 0.2;
 const levelUpAudio = new Audio("/audio/sprinkles-levelup.wav");
 levelUpAudio.volume = 0.4;
 const gameOverAudio = new Audio("/audio/sprinkles-gameover.wav");
@@ -67,14 +67,14 @@ export default class Game {
       if (this.gamestate === GAME_STATE.GAMEOVER) {
         this.lives = 3;
         this.paddle = new Paddle(this);
-        icecreamTruckAudio.currentTime = 0;
-        icecreamTruckAudio.play();
+        despacitoAudio.currentTime = 0;
+        despacitoAudio.play();
       }
 
       if (this.gamestate === GAME_STATE.MENU && this.lives === 3) {
-        icecreamTruckAudio.pause();
-        icecreamTruckAudio.currentTime = 0;
-        icecreamTruckAudio.play();
+        despacitoAudio.pause();
+        despacitoAudio.currentTime = 0;
+        despacitoAudio.play();
       }
 
       this.bricks = buildLevel(this, this.levels[this.currentLevel]);
@@ -87,7 +87,7 @@ export default class Game {
   update() {
     if (this.lives === 0 && this.gamestate === GAME_STATE.RUNNING) {
       this.gamestate = GAME_STATE.GAMEOVER;
-      icecreamTruckAudio.pause();
+      despacitoAudio.pause();
       gameOverAudio.currentTime = 0;
       gameOverAudio.play();
     }
@@ -108,7 +108,7 @@ export default class Game {
     if (this.bricks.length === 0) {
       if (this.currentLevel === this.levels.length - 1) {
         this.gamestate = GAME_STATE.GAMEWON;
-        icecreamTruckAudio.pause();
+        despacitoAudio.pause();
         levelUpAudio.currentTime = 0;
         levelUpAudio.play();
         return;
@@ -219,10 +219,10 @@ export default class Game {
   togglePause() {
     if (this.gamestate === GAME_STATE.PAUSED) {
       this.gamestate = GAME_STATE.RUNNING;
-      icecreamTruckAudio.play();
+      despacitoAudio.play();
     } else {
       this.gamestate = GAME_STATE.PAUSED;
-      icecreamTruckAudio.pause();
+      despacitoAudio.pause();
       pauseAudio.currentTime = 0;
       pauseAudio.play();
     }

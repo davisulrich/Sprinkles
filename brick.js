@@ -1,6 +1,6 @@
 import { detectCollision } from "/collisionDetection.js";
 const hitBrickAudio = new Audio("/audio/sprinkles-hitbrick.wav");
-hitBrickAudio.volume = 0.4;
+hitBrickAudio.volume = 0.5;
 
 export default class Brick {
   constructor(game, position) {

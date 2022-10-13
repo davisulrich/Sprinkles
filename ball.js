@@ -1,10 +1,10 @@
 import { detectCollision } from "/collisionDetection.js";
 const paddleBounceAudio = new Audio("/audio/sprinkles-paddlebounce.wav");
-paddleBounceAudio.volume = 0.3;
+paddleBounceAudio.volume = 0.4;
 const loseLifeAudio = new Audio("/audio/sprinkles-loselife.wav");
 loseLifeAudio.volume = 0.4;
 const hitWallsAudio = new Audio("/audio/sprinkles-hitwall.wav");
-hitWallsAudio.volume = 0.3;
+hitWallsAudio.volume = 0.4;
 
 export default class Ball {
   constructor(game) {
